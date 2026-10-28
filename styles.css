@@ -67,12 +67,17 @@ a:focus-visible, main:focus-visible {
 .skip-link:focus { transform: translateY(0); }
 
 .page-shell {
+  --header-height: clamp(56px, 11svh, 98px);
+  --landscape-height: clamp(72px, 20svh, 180px);
+  --hero-height: calc(100svh - var(--header-height) - var(--landscape-height));
   position: relative;
   isolation: isolate;
   display: flex;
-  min-height: 640px;
-  min-height: max(640px, 100svh);
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
   flex-direction: column;
+  padding-bottom: var(--landscape-height);
   overflow: clip;
   background: radial-gradient(ellipse at 50% 40%, #fffdf7 0%, var(--ivory) 70%);
 }
@@ -84,8 +89,10 @@ a:focus-visible, main:focus-visible {
   align-items: center;
   justify-content: space-between;
   width: min(1440px, 100%);
+  height: var(--header-height);
+  flex: 0 0 var(--header-height);
   margin-inline: auto;
-  padding: 34px 5.3vw;
+  padding: 0 5.3vw;
 }
 
 .masthead p { margin: 0; }
@@ -125,17 +132,19 @@ a:focus-visible, main:focus-visible {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: .85fr 1.15fr;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
   align-items: center;
-  gap: clamp(32px, 5vw, 88px);
-  width: min(1260px, 88%);
+  align-content: center;
+  gap: clamp(24px, 5vw, 88px);
+  width: min(1260px, 88%, calc((var(--hero-height) - 56px) * 2));
+  min-height: 0;
   flex: 1;
   margin: 0 auto;
-  padding-block: 4px 160px;
+  padding: 0;
 }
 
 .identity {
-  margin-top: -22px;
+  min-width: 0;
   text-align: center;
 }
 
@@ -155,13 +164,16 @@ a:focus-visible, main:focus-visible {
 }
 
 .identity-location {
-  margin: 25px -20px 0;
+  margin: 18px 0 0;
   font-size: clamp(8px, .66vw, 10px);
   line-height: 1.8;
   letter-spacing: .26em;
 }
 
 .identity-location span { margin-inline: .5em; }
+
+.announcement-message { min-width: 0; }
+.announcement-location { display: none; }
 
 .announcement-title { margin: 0; line-height: 0; }
 
@@ -177,17 +189,17 @@ a:focus-visible, main:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 25px;
-  margin: 28px 0 0;
-  font-size: clamp(12px, 1.15vw, 16px);
-  letter-spacing: .48em;
+  gap: clamp(10px, 2vw, 25px);
+  margin: clamp(12px, 2svh, 24px) 0 0;
+  font-size: clamp(9px, 1.15vw, 16px);
+  letter-spacing: .38em;
   line-height: 1.6;
   white-space: nowrap;
 }
 
 .stay-tuned span {
   display: block;
-  width: 36px;
+  width: clamp(12px, 2.5vw, 36px);
   height: 2px;
   background: var(--orange);
   transform: skewX(-35deg);
@@ -210,10 +222,8 @@ a:focus-visible, main:focus-visible {
   position: absolute;
   z-index: -1;
   inset: auto 0 0;
-  height: clamp(210px, 18vw, 270px);
+  height: var(--landscape-height);
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 35%) 10%, #000 28%);
-  mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 35%) 10%, #000 28%);
 }
 
 .landscape svg {
@@ -292,49 +302,29 @@ a:focus-visible, main:focus-visible {
 
 @media (min-width: 1600px) {
   .masthead { padding-inline: 0; }
-  .announcement { gap: 100px; width: 1320px; }
   .footer { padding-inline: max(5.3vw, calc((100vw - 1440px) / 2)); }
 }
 
 @media (max-width: 900px) {
-  .page-shell { min-height: max(640px, 100svh); }
-  .announcement { width: 91%; gap: 20px; padding-bottom: 125px; }
-  .identity-location { font-size: 7px; letter-spacing: .17em; }
-  .stay-tuned { gap: 14px; font-size: 11px; letter-spacing: .36em; }
-  .stay-tuned span { width: 24px; }
+  .announcement { gap: 20px; }
+  .identity-location { font-size: 8px; letter-spacing: .13em; }
 }
 
-@media (min-width: 621px) and (max-height: 800px) {
-  .announcement {
-    width: min(88%, calc(185svh - 481px));
-    gap: clamp(24px, 4vw, 50px);
-    padding-bottom: 64px;
-  }
+@media (orientation: landscape) and (max-height: 480px) {
+  .stay-tuned { font-size: 8px; letter-spacing: .2em; gap: 8px; }
+  .stay-tuned span { width: 10px; }
+  .identity-location { font-size: 7px; letter-spacing: .08em; margin-top: 10px; }
 }
 
 @media (max-width: 620px) {
-  .page-shell { min-height: 100svh; }
-  .masthead { padding: 22px 6vw; }
+  .page-shell { --header-height: clamp(54px, 8svh, 72px); }
+  .masthead { padding-inline: 6vw; }
   .masthead-name { gap: 8px; font-size: 8px; letter-spacing: .16em; }
   .sunrise-mark { width: 17px; height: 8px; }
   .masthead-edition { gap: 8px; font-size: 7px; letter-spacing: .12em; }
   .masthead-edition span { font-size: 25px; }
-  .announcement {
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 6px;
-    width: min(88%, 430px);
-    padding-top: 5px;
-    padding-bottom: 140px;
-  }
-  .identity { width: 76%; margin: 0 auto; }
-  .identity-location { display: none; }
-  .announcement-message { margin-top: -6px; }
-  .stay-tuned { margin-top: 20px; gap: 18px; font-size: 12px; letter-spacing: .42em; }
-  .stay-tuned span { width: 28px; }
   .contours--north { width: 420px; height: 420px; left: -250px; top: -210px; }
   .contours--east { width: 420px; height: 420px; right: -290px; top: 350px; }
-  .landscape { height: 250px; }
   .footer { padding: 28px 6vw 16px; }
   .footer-content { gap: 14px; }
   .footer-region { font-size: 7px; letter-spacing: .17em; }
@@ -345,13 +335,35 @@ a:focus-visible, main:focus-visible {
   .footer-accent { width: 28px; }
 }
 
+@media (max-width: 620px) and (orientation: portrait) {
+  .announcement {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    width: min(88%, 430px, calc((var(--hero-height) - 80px) * .75));
+  }
+  .identity { width: 76%; margin: 0 auto; }
+  .identity-location { display: none; }
+  .stay-tuned { margin-top: 16px; gap: 12px; font-size: 10px; letter-spacing: .32em; }
+  .stay-tuned span { width: 20px; }
+  .announcement-location {
+    display: block;
+    margin: 14px 0 0;
+    font-size: 8px;
+    letter-spacing: .13em;
+    line-height: 1.6;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .announcement-location span { margin-inline: .3em; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .identity, .announcement-message { animation: arrive 900ms ease-out both; }
   .announcement-message { animation-delay: 120ms; }
   .contours--north { animation: terrain-drift 24s ease-in-out infinite alternate; }
   @keyframes arrive {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { transform: translateY(12px); }
+    to { transform: translateY(0); }
   }
   @keyframes terrain-drift {
     from { transform: translateY(0) rotate(-10deg); }
