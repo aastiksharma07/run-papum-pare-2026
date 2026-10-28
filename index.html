@@ -39,11 +39,14 @@
           <svg class="official-logo" viewBox="185 65 675 570" role="img" aria-labelledby="logo-title" focusable="false">
             <title id="logo-title">Run Papum Pare Marathon 2026</title>
             <defs>
+              <filter id="paper-knockout" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -5 -5 -5 0 14"/>
+              </filter>
               <clipPath id="logo-clip">
                 <path d="M185 65H860V580L630 635H350L185 580Z"/>
               </clipPath>
             </defs>
-            <image href="./assets/approved-poster.webp" width="1024" height="1536" clip-path="url(#logo-clip)"/>
+            <image href="./assets/approved-poster.webp" width="1024" height="1536" filter="url(#paper-knockout)" clip-path="url(#logo-clip)"/>
           </svg>
           <p class="identity-motto">Run today, inspire generations.</p>
           <p class="identity-location">PAPUM PARE <span aria-hidden="true">·</span> ARUNACHAL PRADESH</p>
@@ -55,10 +58,10 @@
             <svg class="headline-art" viewBox="100 590 840 670" aria-hidden="true" focusable="false">
               <defs>
                 <clipPath id="headline-clip">
-                  <path d="M100 700 940 588 940 1180 100 1260Z"/>
+                  <path d="M100 690 935 585 935 880 100 978Z M150 968 875 867 875 1180 150 1260Z"/>
                 </clipPath>
               </defs>
-              <image href="./assets/approved-poster.webp" width="1024" height="1536" clip-path="url(#headline-clip)"/>
+              <image href="./assets/approved-poster.webp" width="1024" height="1536" filter="url(#paper-knockout)" clip-path="url(#headline-clip)"/>
             </svg>
           </h1>
           <p class="stay-tuned"><span aria-hidden="true"></span>STAY TUNED<span aria-hidden="true"></span></p>

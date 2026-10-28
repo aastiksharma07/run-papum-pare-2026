@@ -70,8 +70,8 @@ a:focus-visible, main:focus-visible {
   position: relative;
   isolation: isolate;
   display: flex;
-  min-height: 900px;
-  min-height: max(800px, 100svh);
+  min-height: 640px;
+  min-height: max(640px, 100svh);
   flex-direction: column;
   overflow: clip;
   background: radial-gradient(ellipse at 50% 40%, #fffdf7 0%, var(--ivory) 70%);
@@ -255,12 +255,20 @@ a:focus-visible, main:focus-visible {
 }
 
 @media (max-width: 900px) {
-  .page-shell { min-height: max(720px, 100svh); }
+  .page-shell { min-height: max(640px, 100svh); }
   .announcement { width: 91%; gap: 20px; padding-bottom: 125px; }
   .identity-location { font-size: 7px; letter-spacing: .17em; }
   .stay-tuned { gap: 14px; font-size: 11px; letter-spacing: .36em; }
   .stay-tuned span { width: 24px; }
   .footer p { font-size: 9px; }
+}
+
+@media (min-width: 621px) and (max-height: 800px) {
+  .announcement {
+    width: min(88%, calc(185svh - 481px));
+    gap: clamp(24px, 4vw, 50px);
+    padding-bottom: 80px;
+  }
 }
 
 @media (max-width: 620px) {
