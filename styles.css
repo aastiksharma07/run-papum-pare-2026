@@ -144,7 +144,6 @@ a:focus-visible, main:focus-visible {
   width: 100%;
   height: auto;
   overflow: hidden;
-  mix-blend-mode: multiply;
 }
 
 .identity-motto {

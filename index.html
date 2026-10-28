@@ -18,7 +18,7 @@
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="./assets/fonts/manrope-600.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="./assets/approved-poster.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="./styles.css?v=20261028-2">
+    <link rel="stylesheet" href="./styles.css?v=20261028-3">
     <title>Run Papum Pare Marathon 2026 — Coming Soon</title>
   </head>
   <body>
@@ -35,19 +35,10 @@
 
       <main id="announcement" class="announcement" tabindex="-1">
         <div class="identity">
-          <!-- Viewports preserve the approved artwork without redrawing the logo. -->
-          <svg class="official-logo" viewBox="185 65 675 570" role="img" aria-labelledby="logo-title" focusable="false">
-            <title id="logo-title">Run Papum Pare Marathon 2026</title>
-            <defs>
-              <filter id="paper-knockout" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
-                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -5 -5 -5 0 14"/>
-              </filter>
-              <clipPath id="logo-clip">
-                <path d="M185 65H860V580L630 635H350L185 580Z"/>
-              </clipPath>
-            </defs>
-            <image href="./assets/approved-poster.webp" width="1024" height="1536" filter="url(#paper-knockout)" clip-path="url(#logo-clip)"/>
-          </svg>
+          <picture>
+            <source srcset="./assets/brand/run-papum-pare-2026-logo-transparent-v2.webp" type="image/webp">
+            <img class="official-logo" src="./assets/brand/run-papum-pare-2026-logo-transparent-v2.png" alt="Run Papum Pare Marathon 2026" width="1568" height="1003" fetchpriority="high">
+          </picture>
           <p class="identity-motto">Run today, inspire generations.</p>
           <p class="identity-location">PAPUM PARE <span aria-hidden="true">·</span> ARUNACHAL PRADESH</p>
         </div>
@@ -57,6 +48,9 @@
             <span class="visually-hidden">Coming soon</span>
             <svg class="headline-art" viewBox="100 590 840 670" aria-hidden="true" focusable="false">
               <defs>
+                <filter id="paper-knockout" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+                  <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -5 -5 -5 0 14"/>
+                </filter>
                 <clipPath id="headline-clip">
                   <path d="M100 690 935 585 935 880 100 978Z M150 968 875 867 875 1180 150 1260Z"/>
                 </clipPath>

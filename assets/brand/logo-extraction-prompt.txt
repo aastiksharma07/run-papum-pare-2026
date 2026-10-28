@@ -1,0 +1,13 @@
+Use case: background-extraction.
+Asset type: reusable transparent PNG brand logo for Run Papum Pare Marathon 2026, to use on the website and future materials.
+Input image: the attached full poster is the EDIT TARGET. Extract only the approved identity in the TOP PORTION, approximately original image x=190..855 and y=75..630. It comprises the orange/gold sunrise, mountain peaks and green pine trees, the dark green running silhouette, the speed strokes, the official logotype, the motto, and the two green leaves with thin horizontal rules below the motto.
+Primary request: remove the surrounding warm ivory poster paper completely and isolate this existing logo on genuine alpha transparency. Tightly frame the extracted logo with a small transparent safety margin. Use high resolution, ideally about 1600–2048 pixels wide, with sharp lettering and clean edges.
+Text must match the source verbatim and keep its existing typography, placement, proportions and spacing:
+RUN
+PAPUM PARE
+MARATHON 2026
+RUN TODAY, INSPIRE GENERATIONS
+Invariants: preserve the original logo composition, running pose, mountain/forest shapes, sunrise, all orange/gold and green colors, speed accents, text and leaf ornament. This is precise background extraction, not a logo redesign. Do not redraw or reinterpret the identity. Do not reword or add anything. Keep intentional white snow highlights inside the mountains.
+Exclude ALL poster elements outside the upper identity: no COMING SOON text, no STAY TUNED, no location footer, no bottom landscape, no corner contours, no birds, no paper texture, no border, no shadows, no colored matte, no fake checkerboard. The outside and empty areas around the isolated identity must be actually transparent.
+
+Finishing pass: expand the transparent canvas so every part of the logo, including the bottom leaf tips and tiny stem, has transparent safety space. Preserve the existing artwork, wording, proportions, and colors. Keep solid green logo strokes opaque and preserve genuine alpha transparency outside the logo. Do not redraw, redesign, retype, stretch, or add a matte.
