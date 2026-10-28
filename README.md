@@ -18,7 +18,7 @@ The final client-approved poster below is the visual reference for the website. 
 
 A responsive, buildless coming-soon page for GitHub Pages. The desktop layout places the official identity beside the announcement; mobile stacks them vertically. The headline is displayed from the approved poster through an SVG viewport. The logo uses a separate transparent raster asset derived from the poster. The original poster PNG remains unchanged, and a 265 KB WebP copy is used for its website artwork.
 
-The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. The mountain scene is fully opaque with no fade or gradient mask. The footer markup is commented out for later reuse, with its styles retained. Fonts are served locally with their licenses. Subtle movement respects reduced-motion preferences. No JavaScript, registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
+The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. A standalone transparent-sky mountain panorama keeps the complete ridge visible without cropping or a fade. The footer markup is commented out for later reuse, with its styles retained. Fonts are served locally with their licenses. Subtle movement respects reduced-motion preferences. No JavaScript, registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
 
 ### Local preview
 
@@ -41,6 +41,8 @@ The existing `CNAME` points to `runpapumpare.sovereignforge.us`; keep it when up
 - `index.html`: page content, accessibility, artwork viewports, and sharing metadata.
 - `styles.css`: brand palette, layout, typography, and motion preferences.
 - `assets/approved-poster.webp`: optimized website copy of the approved poster.
+- `assets/landscape/mountain-panorama.png`: reusable transparent-sky landscape source; the page uses the WebP copy.
+- `assets/landscape/mountain-panorama-prompt.txt`: landscape generation brief.
 - `assets/brand/run-papum-pare-2026-logo-transparent-v2.png`: reusable transparent logo for future materials; the matching lossless WebP is used on the website.
 - `assets/contours.svg`: decorative, abstract contours; not a marathon route.
 - `assets/fonts/`: self-hosted Manrope and Barlow Condensed fonts and licenses.
