@@ -177,7 +177,6 @@ a:focus-visible, main:focus-visible {
 .announcement-location { display: none; }
 
 .announcement-title { margin: 0; line-height: 0; }
-
 .headline-art {
   display: block;
   width: 100%;
@@ -185,6 +184,7 @@ a:focus-visible, main:focus-visible {
   overflow: hidden;
   mix-blend-mode: multiply;
 }
+.headline-word { transform-box: view-box; transform-origin: center; }
 
 .stay-tuned {
   display: flex;
@@ -367,19 +367,36 @@ a:focus-visible, main:focus-visible {
   .announcement-location span { margin-inline: .3em; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .identity, .announcement-message { animation: arrive 900ms ease-out both; }
-  .announcement-message { animation-delay: 120ms; }
-  .contours--north { animation: terrain-drift 24s ease-in-out infinite alternate; }
-  @keyframes arrive {
-    from { transform: translateY(12px); }
-    to { transform: translateY(0); }
-  }
-  @keyframes terrain-drift {
-    from { transform: translateY(0) rotate(-10deg); }
-    to { transform: translateY(9px) rotate(-8deg); }
-  }
+/* Intro uses transforms only for the logo journey; the layout never moves. */
+.official-logo { overflow: visible; transform-origin: center; }
+.logo-runner { transform-origin: 1070px 410px; }
+.skip-intro {
+  position: fixed;
+  z-index: 9;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 10px 2px;
+  border: 0;
+  border-bottom: 1px solid rgb(21 61 44 / 25%);
+  border-radius: 0;
+  background: transparent;
+  color: var(--forest);
+  font: 600 10px Manrope, sans-serif;
+  letter-spacing: .14em;
+  cursor: pointer;
 }
+.skip-intro[hidden] { display: none; }
+.skip-intro:focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
+.intro-pending .announcement, .intro-playing .announcement { z-index: 2; }
+.intro-pending .official-logo { visibility: hidden; }
+.intro-pending .announcement-message, .intro-pending .identity-location,
+.intro-playing .announcement-message, .intro-playing .identity-location { visibility: hidden; }
+.intro-playing .official-logo { will-change: transform; }
+.logo-scene, .logo-type { transform-origin: 784px 501px; }
+.intro-playing .logo-scene, .intro-playing .logo-type { visibility: hidden; }
+.intro-playing .logo-runner { visibility: hidden; }
+.intro-playing.is-revealing .announcement-message,
+.intro-playing.is-revealing .identity-location { visibility: visible; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

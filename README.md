@@ -16,9 +16,9 @@ The final client-approved poster below is the visual reference for the website. 
 
 ## Website
 
-A responsive, buildless coming-soon page for GitHub Pages. The desktop layout places the official identity beside the announcement; mobile stacks them vertically. The headline is displayed from the approved poster through an SVG viewport. The logo uses a separate transparent raster asset derived from the poster. The original poster PNG remains unchanged, and a 265 KB WebP copy is used for its website artwork.
+A responsive, buildless coming-soon page for GitHub Pages. The desktop layout places the official identity beside the announcement; mobile stacks them vertically. The exact approved poster lettering is retained as two independently animated SVG groups, with an accessible HTML heading. Both word layers share the optimized poster artwork; they are not retyped in a substitute font. The logo uses the approved transparent raster asset partitioned into runner, scenery, and lettering with SVG clips; the source artwork is unchanged.
 
-The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. The standalone transparent-sky mountain panorama scales proportionally at its original 3:1 aspect ratio, with no stretching, cropping, or fade. The header and footer markup are commented out for later reuse, with their styles retained. Fonts are served locally with their licenses. Subtle movement respects reduced-motion preferences. No JavaScript, registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
+The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. The standalone transparent-sky mountain panorama scales proportionally at its original 3:1 aspect ratio, with no stretching, cropping, or fade. The header and footer markup are commented out for later reuse, with their styles retained. Fonts are served locally with their licenses. A short JavaScript intro slides the unaltered runner from left to right, reveals the complete logo with a subtle scale-and-settle entrance, then settles it into its responsive position. “Coming” slides in from the left and “Soon” from the right, without opacity fades. Skip intro, Escape, reduced-motion preferences, viewport resizing, and backgrounding all resolve immediately to the complete page. Without JavaScript, the final composition is visible. A bounded asset-loading wait and startup watchdog prevent the intro from blocking content. No registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
 
 ### Local preview
 
@@ -34,12 +34,13 @@ Then open `http://127.0.0.1:4173`. Choose another port if 4173 is occupied.
 
 Pages is configured to deploy from **main / (root)**. Pushing website changes to `main` updates the page. `.nojekyll` keeps the files as a plain static site.
 
-The existing `CNAME` points to `runpapumpare.sovereignforge.us`; keep it when updating the site. Canonical and social preview metadata use its intended HTTPS address. GitHub must finish provisioning a valid certificate before HTTPS can be enforced in repository Settings → Pages.
+The existing `CNAME` points to `runpapumpare.sovereignforge.us`; keep it when updating the site. Canonical and social preview metadata use its intended HTTPS address. The custom domain is served over HTTPS.
 
 ### Files
 
 - `index.html`: page content, accessibility, artwork viewports, and sharing metadata.
-- `styles.css`: brand palette, layout, typography, and motion preferences.
+- `styles.css`: brand palette, layout, poster headline layers, and motion preferences.
+- `intro.js`: staged Web Animations API sequence, skip controls, and graceful fallbacks.
 - `assets/approved-poster.webp`: optimized website copy of the approved poster.
 - `assets/landscape/mountain-panorama.png`: reusable transparent-sky landscape source; the page uses the WebP copy.
 - `assets/landscape/mountain-panorama-prompt.txt`: landscape generation brief.
