@@ -55,11 +55,13 @@
 
     const box = logo.getBoundingClientRect();
     const width = document.documentElement.clientWidth;
-    const height = window.innerHeight;
-    const stageWidth = Math.min(width * .80, height * .75, 620);
+    const hero = document.querySelector('.announcement').getBoundingClientRect();
+    // Keep the desktop splash above the complete mountain ridgeline.
+    const stageWidth = Math.min(width * .80, hero.height * .70 * (1568 / 1003), 620);
     const scale = stageWidth / box.width;
     const dx = width / 2 - (box.left + box.width / 2);
-    const dy = height / 2 - (box.top + box.height / 2);
+    const splashTop = hero.top + Math.max(12, hero.height * .035);
+    const dy = splashTop + stageWidth / (2 * (1568 / 1003)) - (box.top + box.height / 2);
     const stage = `translate(${dx}px, ${dy}px) scale(${scale})`;
     logo.style.transform = stage;
     root.classList.replace('intro-pending', 'intro-playing');
@@ -70,26 +72,21 @@
     animate(runner, [
       { transform: 'translate(-850px, 0)', visibility: 'visible' },
       { transform: 'translate(0, 0)', visibility: 'visible' }
-    ], { duration: 1200, easing: 'cubic-bezier(.45,0,.15,1)' });
+    ], { duration: 1400, easing: 'cubic-bezier(.32,0,.18,1)' });
 
-    document.querySelectorAll('.logo-scene, .logo-type').forEach(element => {
-      animate(element, [
-        { visibility: 'hidden', offset: 0 },
-        { visibility: 'visible', offset: .001 },
-        { visibility: 'visible', offset: 1 }
-      ], { delay: 1250, duration: 700 });
+    // A wide feathered mask creates a directional fade, with no hard wipe edge.
+    animate(document.querySelector('.logo-reveal-sweep'), [
+      { transform: 'translateX(-2568px)' }, { transform: 'translateX(0)' }
+    ], { delay: 350, duration: 1900, easing: 'cubic-bezier(.33,0,.3,1)' });
+
+    // The moving runner stays fully solid until it has arrived and the full
+    // logo beneath it has finished appearing. Then the overlay can dissolve.
+    animate(runner, [{ opacity: 1 }, { opacity: 0 }], { delay: 2250, duration: 350 });
+
+    animate(logo, [{ transform: stage }, { transform: 'translate(0, 0) scale(1)' }], {
+      delay: 2700, duration: 1100
     });
-
-    // Scale the assembled mark as one piece so its layers never separate.
-    animate(logo, [
-      { transform: stage, offset: 0 },
-      { transform: stage, offset: 1250 / 3400, easing: ease },
-      { transform: `translate(${dx}px, ${dy}px) scale(${scale * 1.018})`, offset: 1500 / 3400, easing: ease },
-      { transform: stage, offset: 2050 / 3400 },
-      { transform: stage, offset: 2350 / 3400, easing: ease },
-      { transform: 'translate(0, 0) scale(1)', offset: 1 }
-    ], { duration: 3400, easing: 'linear' });
-    after(2950, () => {
+    after(3250, () => {
       root.classList.add('is-revealing');
       document.querySelectorAll('.headline-word').forEach((word, index) => {
         animate(word, [
@@ -103,7 +100,7 @@
         ], { delay: 600, duration: 550 });
       });
     });
-    after(4250, finish);
+    after(4550, finish);
     window.addEventListener('resize', finish, { once: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     reduceMotion.addEventListener('change', finish, { once: true });

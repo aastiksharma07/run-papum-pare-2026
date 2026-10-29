@@ -72,7 +72,13 @@ test('runner glides, words slide in opposite directions, then all animation stat
   await f.advance(2950);
   assert.equal(f.animations.find(a=>a.selector==='.coming').frames[0].transform,'translateX(-115%)');
   assert.equal(f.animations.find(a=>a.selector==='.soon').frames[0].transform,'translateX(115%)');
-  assert.ok(f.animations.every(a=>a.frames.every(frame=>!('opacity' in frame))));
+  assert.equal(runner.options.duration, 1400);
+  const runnerFade=f.animations.find(a=>a.selector==='.logo-runner' && a.options.delay===2250);
+  const logoFade=f.animations.find(a=>a.selector==='.logo-reveal-sweep');
+  assert.ok(runnerFade.options.delay > runner.options.duration);
+  assert.equal(logoFade.options.duration,1900);
+  assert.equal(f.animations.find(a=>a.selector==='.coming').frames[0].transform,'translateX(-115%)');
+  assert.equal(f.animations.find(a=>a.selector==='.soon').frames[0].transform,'translateX(115%)');
   await f.advance(1300);
   assertComplete(f);
 });
