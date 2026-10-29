@@ -18,7 +18,7 @@ The final client-approved poster below is the visual reference for the website. 
 
 A responsive, buildless coming-soon page for GitHub Pages. The desktop layout places the official identity beside the announcement; mobile stacks them vertically. The headline is displayed from the approved poster through an SVG viewport. The logo uses a separate transparent raster asset derived from the poster. The original poster PNG remains unchanged, and a 265 KB WebP copy is used for its website artwork.
 
-The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. A standalone transparent-sky mountain panorama keeps the complete ridge visible without cropping or a fade. The footer markup is commented out for later reuse, with its styles retained. Fonts are served locally with their licenses. Subtle movement respects reduced-motion preferences. No JavaScript, registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
+The page includes the official motto, “Coming Soon,” “Stay Tuned,” and location. The composition scales to the available viewport height so desktop and mobile fit on one screen. The standalone transparent-sky mountain panorama scales proportionally at its original 3:1 aspect ratio, with no stretching, cropping, or fade. The header and footer markup are commented out for later reuse, with their styles retained. Fonts are served locally with their licenses. Subtle movement respects reduced-motion preferences. No JavaScript, registration form, unconfirmed dates, analytics, or external runtime dependencies are used.
 
 ### Local preview
 
