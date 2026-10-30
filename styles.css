@@ -368,35 +368,18 @@ a:focus-visible, main:focus-visible {
 }
 
 /* Intro uses transforms only for the logo journey; the layout never moves. */
-.official-logo { position: relative; overflow: visible; transform-origin: center; }
+.official-logo { position: relative; width: 110%; margin-inline: -5%; overflow: visible; transform-origin: center; }
 .logo-static { display: block; width: 100%; height: auto; }
 .logo-layers { display: none; position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .intro-playing .logo-static { visibility: hidden; }
 .intro-playing .logo-layers { display: block; }
 .intro-playing .logo-reveal-sweep { transform: translateX(-2568px); }
 .logo-runner { transform-origin: 1070px 410px; }
-.skip-intro {
-  position: fixed;
-  z-index: 9;
-  right: max(24px, env(safe-area-inset-right));
-  top: max(24px, env(safe-area-inset-top));
-  padding: 10px 2px;
-  border: 0;
-  border-bottom: 1px solid rgb(21 61 44 / 25%);
-  border-radius: 0;
-  background: transparent;
-  color: var(--forest);
-  font: 600 10px Manrope, sans-serif;
-  letter-spacing: .14em;
-  cursor: pointer;
-}
-.skip-intro[hidden] { display: none; }
-.skip-intro:focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
 .intro-pending .announcement, .intro-playing .announcement { z-index: 2; }
 .intro-pending .official-logo { visibility: hidden; }
 .intro-pending .announcement-message, .intro-pending .identity-location,
 .intro-playing .announcement-message, .intro-playing .identity-location { visibility: hidden; }
-.intro-playing .official-logo { will-change: transform; }
+.intro-playing .official-logo, .intro-playing .headline-word { will-change: transform; }
 .intro-playing.is-revealing .announcement-message,
 .intro-playing.is-revealing .identity-location { visibility: visible; }
 

@@ -4,7 +4,6 @@
   const root = document.documentElement;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const logo = document.querySelector('.official-logo');
-  const skip = document.querySelector('.skip-intro');
   const animations = new Set();
   const timers = new Set();
   let finished = false;
@@ -18,8 +17,6 @@
     animations.forEach(animation => animation.cancel());
     root.classList.remove('intro-pending', 'intro-playing', 'is-revealing');
     logo.removeAttribute('style');
-    if (document.activeElement === skip) document.querySelector('main').focus({ preventScroll: true });
-    skip.hidden = true;
     window.removeEventListener('resize', finish);
     document.removeEventListener('visibilitychange', onVisibilityChange);
     reduceMotion.removeEventListener('change', finish);
@@ -65,7 +62,6 @@
     const stage = `translate(${dx}px, ${dy}px) scale(${scale})`;
     logo.style.transform = stage;
     root.classList.replace('intro-pending', 'intro-playing');
-    skip.hidden = false;
 
     const runner = document.querySelector('.logo-runner');
     // One continuous glide: preserve the runner's approved silhouette.
@@ -88,11 +84,13 @@
     });
     after(3250, () => {
       root.classList.add('is-revealing');
+      // Start each word just outside its viewport so its first visible motion
+      // is gentle, then use a longer, symmetric ease for a continuous glide.
       document.querySelectorAll('.headline-word').forEach((word, index) => {
         animate(word, [
-          { transform: `translateX(${index === 0 ? '-115%' : '115%'})` },
+          { transform: `translateX(${index === 0 ? '-850px' : '850px'})` },
           { transform: 'translateX(0)' }
-        ], { delay: index * 120, duration: 1050 });
+        ], { delay: index * 140, duration: 1800, easing: 'cubic-bezier(.37, 0, .63, 1)' });
       });
       document.querySelectorAll('.stay-tuned, .identity-location, .announcement-location').forEach(element => {
         animate(element, [
@@ -100,13 +98,12 @@
         ], { delay: 600, duration: 550 });
       });
     });
-    after(4550, finish);
+    after(5400, finish);
     window.addEventListener('resize', finish, { once: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     reduceMotion.addEventListener('change', finish, { once: true });
   }
 
-  skip.addEventListener('click', finish);
   document.querySelector('.skip-link').addEventListener('click', finish);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') finish(); });
   start().catch(finish);

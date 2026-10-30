@@ -60,7 +60,6 @@ async function fixture({ reduced = false, assetFails = false, assetStalls = fals
 
 function assertComplete(f) {
   assert.equal(f.classes.size, 0);
-  assert.equal(f.node('.skip-intro').hidden, true);
   assert.ok(f.animations.every(a=>a.cancelled));
 }
 
@@ -70,8 +69,8 @@ test('runner glides, words slide in opposite directions, then all animation stat
   const runner=f.animations.find(a=>a.selector==='.logo-runner');
   assert.equal(runner.frames[0].transform,'translate(-850px, 0)');
   await f.advance(3250);
-  assert.equal(f.animations.find(a=>a.selector==='.coming').frames[0].transform,'translateX(-115%)');
-  assert.equal(f.animations.find(a=>a.selector==='.soon').frames[0].transform,'translateX(115%)');
+  assert.equal(f.animations.find(a=>a.selector==='.coming').frames[0].transform,'translateX(-850px)');
+  assert.equal(f.animations.find(a=>a.selector==='.soon').frames[0].transform,'translateX(850px)');
   assert.equal(runner.options.duration, 1400);
   const runnerFade=f.animations.find(a=>a.selector==='.logo-runner' && a.options.delay===2350);
   const logoFade=f.animations.find(a=>a.selector==='.logo-reveal-sweep');
@@ -79,11 +78,11 @@ test('runner glides, words slide in opposite directions, then all animation stat
   assert.equal(logoFade.options.duration,2000);
   assert.ok(f.animations.filter(a=>a.selector==='.coming'||a.selector==='.soon').every(a=>a.frames.every(frame=>!('opacity' in frame))));
   assert.ok(runnerFade.options.delay >= logoFade.options.delay + logoFade.options.duration);
-  await f.advance(1300);
+  await f.advance(2150);
   assertComplete(f);
 });
 for (const [name,target,event,payload] of [
-  ['skip','.skip-intro','click',{}], ['Escape','document','keydown',{key:'Escape'}],
+  ['Escape','document','keydown',{key:'Escape'}],
   ['resize','window','resize',{}], ['motion preference change','motion','change',{}]
 ]) test(`${name} resolves immediately to the complete page`,async()=>{
   const f=await fixture();f.emit(target,event,payload);assertComplete(f);
