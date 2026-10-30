@@ -379,7 +379,7 @@ a:focus-visible, main:focus-visible {
   position: fixed;
   z-index: 9;
   right: max(24px, env(safe-area-inset-right));
-  bottom: max(24px, env(safe-area-inset-bottom));
+  top: max(24px, env(safe-area-inset-top));
   padding: 10px 2px;
   border: 0;
   border-bottom: 1px solid rgb(21 61 44 / 25%);

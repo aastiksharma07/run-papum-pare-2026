@@ -8,7 +8,7 @@
   const animations = new Set();
   const timers = new Set();
   let finished = false;
-  const ease = 'cubic-bezier(.22, 1, .36, 1)';
+  const ease = 'cubic-bezier(.25, .8, .25, 1)';
 
   function finish() {
     if (finished) return;
@@ -77,11 +77,11 @@
     // A wide feathered mask creates a directional fade, with no hard wipe edge.
     animate(document.querySelector('.logo-reveal-sweep'), [
       { transform: 'translateX(-2568px)' }, { transform: 'translateX(0)' }
-    ], { delay: 350, duration: 1900, easing: 'cubic-bezier(.33,0,.3,1)' });
+    ], { delay: 350, duration: 2000, easing: 'linear' });
 
     // The moving runner stays fully solid until it has arrived and the full
     // logo beneath it has finished appearing. Then the overlay can dissolve.
-    animate(runner, [{ opacity: 1 }, { opacity: 0 }], { delay: 2250, duration: 350 });
+    animate(runner, [{ opacity: 1 }, { opacity: 0 }], { delay: 2350, duration: 350 });
 
     animate(logo, [{ transform: stage }, { transform: 'translate(0, 0) scale(1)' }], {
       delay: 2700, duration: 1100
