@@ -82,7 +82,7 @@
     animate(logo, [{ transform: stage }, { transform: 'translate(0, 0) scale(1)' }], {
       delay: 2700, duration: 1100
     });
-    after(3250, () => {
+    after(2700, () => {
       root.classList.add('is-revealing');
       // Start each word just outside its viewport so its first visible motion
       // is gentle, then use a longer, symmetric ease for a continuous glide.
@@ -98,7 +98,7 @@
         ], { delay: 600, duration: 550 });
       });
     });
-    after(5400, finish);
+    after(4850, finish);
     window.addEventListener('resize', finish, { once: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     reduceMotion.addEventListener('change', finish, { once: true });
