@@ -147,6 +147,7 @@ a:focus-visible, main:focus-visible {
 .identity {
   min-width: 0;
   text-align: center;
+  container: identity / inline-size;
 }
 
 .official-logo {
@@ -171,9 +172,22 @@ a:focus-visible, main:focus-visible {
   letter-spacing: .26em;
 }
 
-.identity-location span { margin-inline: .5em; }
+.location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: .2em .6em;
+  text-align: center;
+}
+.location > span { white-space: nowrap; }
 
-.announcement-message { min-width: 0; }
+@container identity (max-width: 245px) {
+  .identity-location { flex-direction: column; align-items: center; gap: 2px; }
+  .identity-location .location-separator { display: none; }
+}
+
+.announcement-message { min-width: 0; container: announcement-copy / inline-size; }
 .announcement-location { display: none; }
 
 .announcement-title { margin: 0; line-height: 0; }
@@ -356,15 +370,19 @@ a:focus-visible, main:focus-visible {
   .stay-tuned { margin-top: 16px; gap: 12px; font-size: 10px; letter-spacing: .32em; }
   .stay-tuned span { width: 20px; }
   .announcement-location {
-    display: block;
+    display: flex;
     margin: 14px 0 0;
     font-size: 8px;
     letter-spacing: .13em;
     line-height: 1.6;
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
   }
-  .announcement-location span { margin-inline: .3em; }
+}
+
+@container announcement-copy (max-width: 245px) {
+  .announcement-location { flex-direction: column; align-items: center; gap: 2px; }
+  .announcement-location .location-separator { display: none; }
 }
 
 /* Intro uses transforms only for the logo journey; the layout never moves. */
@@ -375,6 +393,7 @@ a:focus-visible, main:focus-visible {
 .intro-playing .logo-layers { display: block; }
 .intro-playing .logo-reveal-sweep { transform: translateX(-2568px); }
 .logo-runner { transform-origin: 1070px 410px; }
+.runner-articulated { opacity: 1; }
 .intro-pending .announcement, .intro-playing .announcement { z-index: 2; }
 .intro-pending .official-logo { visibility: hidden; }
 .intro-pending .announcement-message, .intro-pending .identity-location,

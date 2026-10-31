@@ -30,8 +30,10 @@
         }, 8000);
       }
     </script>
-    <link rel="stylesheet" href="./styles.css?v=20261030-8">
-    <script src="./intro.js?v=20261030-8" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261031-runner-skin-3">
+    <script src="./runner-skin.js?v=20261031-runner-skin-3" defer></script>
+    <script src="./runner-motion.js?v=20261031-runner-skin-3" defer></script>
+    <script src="./intro.js?v=20261031-runner-skin-3" defer></script>
     <title>Run Papum Pare Marathon 2026 — Coming Soon</title>
   </head>
   <body>
@@ -52,14 +54,20 @@
         <div class="identity">
           <div class="official-logo">
             <img class="logo-static" src="./assets/brand/run-papum-pare-2026-logo-transparent-v2.webp" alt="Run Papum Pare Marathon 2026" width="1568" height="1003" fetchpriority="high">
-            <!-- Animation layers retain the exact approved image. The static image
-                 takes over at completion for crisp rendering at every size. -->
+            <!-- The moving runner uses the approved artwork, skinned to its joints.
+                 Every piece returns to its original coordinates without a fade. -->
             <svg class="logo-layers" viewBox="0 0 1568 1003" role="img" aria-labelledby="logo-title">
               <title id="logo-title">Run Papum Pare Marathon 2026</title>
               <defs>
                 <image id="logo-source" href="./assets/brand/run-papum-pare-2026-logo-transparent-v2.webp" width="1568" height="1003"/>
-              <path id="runner-outline" d="M1158 246 C1145 228 1151 200 1178 196 L1208 204 1226 216 1221 236 1212 244 1211 260 1197 273 1178 267 1170 282 1196 315 1239 291 Q1245 269 1265 278 Q1290 291 1271 309 L1203 363 Q1190 375 1175 358 L1154 339 1128 374 Q1197 375 1219 403 Q1234 420 1210 443 L1136 513 1120 540 1131 569 Q1124 583 1109 568 L1092 548 1085 531 Q1061 527 1075 504 L1139 432 1089 430 1044 478 977 524 917 559 899 590 884 619 888 640 Q874 654 863 633 L858 605 859 573 Q852 555 878 548 L917 532 966 489 1009 433 1030 408 1037 375 1065 337 1092 288 1056 279 1024 298 1005 319 Q1007 338 987 339 Q967 339 966 319 L1000 277 1041 247 Q1052 238 1082 244 L1131 250Z"/>
+                <!-- runner-skin-defs:start -->
+                <path id="runner-outline" d="M1158 246 C1145 228 1151 200 1178 196 L1208 204 1226 216 1221 236 1212 244 1211 260 1197 273 1178 267 1170 282 1196 315 1239 291 Q1245 269 1265 278 Q1290 291 1271 309 L1203 363 Q1190 375 1175 358 L1154 339 1128 374 Q1197 375 1219 403 Q1234 420 1210 443 L1136 513 1120 540 1131 569 Q1124 583 1109 568 L1092 548 1085 531 Q1061 527 1075 504 L1139 432 1089 430 1044 478 977 524 917 559 899 590 884 619 888 640 Q874 654 863 633 L858 605 859 573 Q852 555 878 548 L917 532 966 489 1009 433 1030 408 1037 375 1065 337 1092 288 1056 279 1024 298 1005 319 Q1007 338 987 339 Q967 339 966 319 L1000 277 1041 247 Q1052 238 1082 244 L1131 250Z"/>
                 <clipPath id="runner-clip"><use href="#runner-outline"/></clipPath>
+                <!-- runner-skin-defs:end -->
+                <mask id="logo-without-runner" maskUnits="userSpaceOnUse" x="0" y="0" width="1568" height="1003">
+                  <rect width="1568" height="1003" fill="white"/>
+                  <use href="#runner-outline" fill="black"/>
+                </mask>
                 <linearGradient id="logo-soft-edge">
                   <stop offset="0" stop-color="white"/>
                   <stop offset="61.06%" stop-color="white"/>
@@ -69,12 +77,18 @@
                   <rect class="logo-reveal-sweep" width="2568" height="1003" fill="url(#logo-soft-edge)"/>
                 </mask>
               </defs>
-              <g class="logo-reveal" mask="url(#logo-reveal-mask)"><use href="#logo-source"/></g>
-              <g class="logo-runner"><use href="#logo-source" clip-path="url(#runner-clip)"/></g>
+              <g class="logo-reveal" mask="url(#logo-reveal-mask)"><g mask="url(#logo-without-runner)"><use href="#logo-source"/></g></g>
+              <g class="logo-runner">
+                <g class="runner-articulated" aria-hidden="true">
+                  <foreignObject width="1568" height="1003"><canvas xmlns="http://www.w3.org/1999/xhtml" class="runner-canvas" width="1568" height="1003" style="width:100%;height:100%"></canvas></foreignObject>
+                  <g class="runner-skin-fallback"><use href="#logo-source" clip-path="url(#runner-clip)"/></g>
+                </g>
+                <!-- runner-rig:end -->
+              </g>
             </svg>
           </div>
           <p class="identity-motto">Run today, inspire generations.</p>
-          <p class="identity-location">PAPUM PARE <span aria-hidden="true">·</span> ARUNACHAL PRADESH</p>
+          <p class="identity-location location"><span class="location-place">PAPUM PARE</span> <span class="location-separator" aria-hidden="true">·</span> <span class="location-region">ARUNACHAL PRADESH</span></p>
         </div>
 
         <div class="announcement-message">
@@ -94,7 +108,7 @@
             </svg>
           </h1>
           <p class="stay-tuned"><span aria-hidden="true"></span>STAY TUNED<span aria-hidden="true"></span></p>
-          <p class="announcement-location">PAPUM PARE <span aria-hidden="true">·</span> ARUNACHAL PRADESH</p>
+          <p class="announcement-location location"><span class="location-place">PAPUM PARE</span> <span class="location-separator" aria-hidden="true">·</span> <span class="location-region">ARUNACHAL PRADESH</span></p>
         </div>
       </main>
 

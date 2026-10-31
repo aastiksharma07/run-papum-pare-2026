@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="840 170 500 520" role="img" aria-labelledby="runner-asset-title">
+<title id="runner-asset-title">Run Papum Pare reusable runner</title>
+<defs><image id="runner-brand-source" href="./run-papum-pare-2026-logo-transparent-v2.webp" width="1568" height="1003"/>
+                <path id="runner-outline" d="M1158 246 C1145 228 1151 200 1178 196 L1208 204 1226 216 1221 236 1212 244 1211 260 1197 273 1178 267 1170 282 1196 315 1239 291 Q1245 269 1265 278 Q1290 291 1271 309 L1203 363 Q1190 375 1175 358 L1154 339 1128 374 Q1197 375 1219 403 Q1234 420 1210 443 L1136 513 1120 540 1131 569 Q1124 583 1109 568 L1092 548 1085 531 Q1061 527 1075 504 L1139 432 1089 430 1044 478 977 524 917 559 899 590 884 619 888 640 Q874 654 863 633 L858 605 859 573 Q852 555 878 548 L917 532 966 489 1009 433 1030 408 1037 375 1065 337 1092 288 1056 279 1024 298 1005 319 Q1007 338 987 339 Q967 339 966 319 L1000 277 1041 247 Q1052 238 1082 244 L1131 250Z"/>
+                <clipPath id="runner-clip"><use href="#runner-outline"/></clipPath>
+                </defs>
+<g class="runner-articulated" aria-hidden="true">
+                  <foreignObject width="1568" height="1003"><canvas xmlns="http://www.w3.org/1999/xhtml" class="runner-canvas" width="1568" height="1003" style="width:100%;height:100%"></canvas></foreignObject>
+                  <g class="runner-skin-fallback"><use href="#runner-brand-source" clip-path="url(#runner-clip)"/></g>
+                </g>
+                
+</svg>

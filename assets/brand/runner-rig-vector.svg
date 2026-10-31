@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="840 170 500 520" role="img" aria-labelledby="runner-asset-title">
+<title id="runner-asset-title">Run Papum Pare articulated runner</title>
+<defs><image id="runner-brand-source" href="./run-papum-pare-2026-logo-transparent-v2.webp" width="1568" height="1003"/><clipPath id="runner-head-clip"><path d="M1158 246C1145 228 1151 200 1178 196L1208 204 1226 216 1221 236 1212 244 1211 260 1197 273 1178 267 1170 282Z"/></clipPath></defs>
+<g class="runner-articulated" aria-hidden="true">
+                  <g fill="#062719">
+                    <path data-runner-part="rear-thigh" d="M1042.32 406.85 C1045.25 449.77 1061.81 495.59 1071.42 529.77 Q1089.78 543 1103 524.64 C1101.29 489.17 1102.5 440.47 1091.68 398.83 Q1062.99 378.16 1042.32 406.85Z"/><path data-runner-part="rear-calf" d="M1084.48 511.44 C1040.08 514.06 992.77 530.38 957.76 541.52 Q951.24 550.77 960.49 557.29 C997.21 556 1047.25 555.44 1089.94 542.97 Q1102.98 524.47 1084.48 511.44Z"/><circle data-runner-part="rear-knee" r="16" transform="translate(1087.21 527.21)"/>
+                    <path data-runner-part="rear-shoe" d="M-10-8Q4-14 14-2L37 9Q45 17 30 17L-14 10Q-20 3-10-8Z" transform="translate(959.12 549.4) rotate(34.36)"/>
+                    <path data-runner-part="rear-upper" d="M1108.16 295.03 C1125.3 314.47 1149.5 331 1166.16 344.39 Q1183.13 344.15 1182.88 327.18 C1169.01 310.92 1151.77 287.21 1131.84 270.64 Q1107.8 270.99 1108.16 295.03Z"/><path data-runner-part="rear-lower" d="M1183.37 343.89 C1201.38 327.19 1216.91 304.31 1229.05 288.1 Q1228.56 276.8 1217.25 277.29 C1202.16 290.81 1180.73 308.28 1165.67 327.68 Q1166.41 344.64 1183.37 343.89Z"/><circle data-runner-part="rear-elbow" r="12" transform="translate(1174.52 335.79)"/>
+                    <path data-runner-part="rear-hand" d="M-10-6Q-7-19 4-17L12-9Q18 3 7 13L-6 13Q-14 7-10-6Z" transform="translate(1223.15 282.69) rotate(-25)"/>
+                  </g>
+                  <g fill="#01190d">
+                    <path data-runner-part="front-thigh" d="M1054.03 419.87 C1076.6 456.5 1112.58 489.34 1137 515.12 Q1159.4 518.28 1162.56 495.88 C1144.54 465.29 1122.93 421.62 1093.97 389.8 Q1058.96 384.86 1054.03 419.87Z"/><path data-runner-part="front-calf" d="M1133.88 507.25 C1133.74 551.73 1147.1 599.96 1156.05 635.6 Q1164.88 642.67 1171.95 633.85 C1172.94 597.12 1175.49 547.14 1165.69 503.75 Q1148.03 489.6 1133.88 507.25Z"/><circle data-runner-part="front-knee" r="16" transform="translate(1149.78 505.5)"/>
+                    <path data-runner-part="front-shoe" d="M-10-8Q4-14 14-2L37 9Q45 17 30 17L-14 10Q-20 3-10-8Z" transform="translate(1164 634.72) rotate(-10)"/>
+                  </g>
+                  <g data-runner-part="body" transform="translate(0 -2.16)">
+                    <path fill="#01190d" d="M1045 410C1024 389 1048 352 1072 319L1101 274Q1123 249 1150 266Q1185 285 1159 324L1123 372 1111 411Q1080 428 1045 410Z"/>
+                    <path fill="#fffefa" d="M1141 267C1167 298 1119 349 1100 376Q1085 405 1112 414L1094 421Q1062 412 1082 379L1121 319Q1149 281 1131 265Z"/>
+                    <path fill="#fffefa" d="M1146 280Q1157 304 1124 334L1108 346Q1140 340 1155 320Q1150 340 1122 360Q1147 351 1160 324Q1168 301 1146 280Z"/>
+                    <path fill="#01190d" d="M1133 276L1166 246 1190 256 1161 292Z"/>
+                    <use href="#runner-brand-source" clip-path="url(#runner-head-clip)"/>
+                  </g>
+                  <g fill="#01190d">
+                    <path data-runner-part="front-upper" d="M1129.43 269.52 C1107.95 284.02 1088.43 305.88 1073.01 320.68 Q1071.07 337.54 1087.93 339.48 C1105.84 327.82 1131.57 313.78 1150.57 296.15 Q1153.32 272.27 1129.43 269.52Z"/><path data-runner-part="front-lower" d="M1071.29 337.81 C1085.53 357.82 1106.21 376.17 1120.73 390.3 Q1132 391.27 1132.97 379.99 C1121.51 363.29 1106.95 339.78 1089.65 322.35 Q1072.74 320.9 1071.29 337.81Z"/><circle data-runner-part="front-elbow" r="12" transform="translate(1080.47 330.08)"/>
+                    <path data-runner-part="front-hand" d="M-10-6Q-7-19 4-17L12-9Q18 3 7 13L-6 13Q-14 7-10-6Z" transform="translate(1126.85 385.15) rotate(-25)"/>
+                  </g>
+                </g>
+                
+</svg>

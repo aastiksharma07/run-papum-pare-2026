@@ -4,7 +4,7 @@ const { readFileSync } = require('node:fs');
 const { runInNewContext } = require('node:vm');
 const source = readFileSync(require.resolve('../intro.js'), 'utf8');
 
-async function fixture({ reduced = false, assetFails = false, assetStalls = false } = {}) {
+async function fixture({ reduced = false, assetFails = false, assetStalls = false, runnerFails = false, width = 1280, height = 720 } = {}) {
   const classes = new Set(['intro-pending']);
   const events = new Map();
   const nodes = new Map();
@@ -20,6 +20,7 @@ async function fixture({ reduced = false, assetFails = false, assetStalls = fals
     if (!nodes.has(selector)) nodes.set(selector, {
       ...eventTarget(selector), style: {}, hidden: true,
       getBoundingClientRect: () => ({ left: 100, top: 120, width: 400, height: 256 }),
+      getAttribute: () => 'M0 0Z',
       removeAttribute() { this.style = {}; }, focus() {},
       animate(frames, options) {
         const animation = { selector, frames, options, cancelled: false, cancel() { this.cancelled = true; } };
@@ -29,7 +30,7 @@ async function fixture({ reduced = false, assetFails = false, assetStalls = fals
     });
     return nodes.get(selector);
   }
-  const root = {clientWidth:1280, classList: {
+  const root = {clientWidth:width, classList: {
     contains: x => classes.has(x), add: (...xs) => xs.forEach(x=>classes.add(x)),
     remove: (...xs) => xs.forEach(x=>classes.delete(x)),
     replace: (a,b) => { classes.delete(a); classes.add(b); }
@@ -38,7 +39,8 @@ async function fixture({ reduced = false, assetFails = false, assetStalls = fals
     querySelector: node, querySelectorAll: selectors => selectors === '.headline-word'
       ? [node('.coming'), node('.soon')] : selectors.split(', ').map(node), fonts: { ready: Promise.resolve() }
   };
-  const window = { ...eventTarget('window'), innerHeight:720 };
+  const motion = { plays: 0, stops: 0, play() { this.plays++; }, stop() { this.stops++; } };
+  const window = { PapumPareRunner: { create: () => {if(runnerFails)throw Error('WebGL unavailable');return motion;}, POSE_LOCK: .86 }, ...eventTarget('window'), innerHeight:height };
   runInNewContext(source, {
     window, document, matchMedia: () => ({ ...eventTarget('motion'), matches:reduced }),
     Image: class { decode() { return assetStalls ? new Promise(()=>{}) : assetFails ? Promise.reject(Error('asset')) : Promise.resolve(); } },
@@ -55,12 +57,13 @@ async function fixture({ reduced = false, assetFails = false, assetStalls = fals
     }
     time=end; await flush();
   }
-  return {classes,animations,emit,node,advance};
+  return {classes,animations,emit,node,advance,motion};
 }
 
 function assertComplete(f) {
   assert.equal(f.classes.size, 0);
   assert.ok(f.animations.every(a=>a.cancelled));
+  if (f.motion.plays) assert.equal(f.motion.stops,1);
 }
 
 test('runner glides, words slide in opposite directions, then all animation state clears', async () => {
@@ -74,14 +77,14 @@ test('runner glides, words slide in opposite directions, then all animation stat
   await f.advance(1);
   assert.equal(f.animations.find(a=>a.selector==='.coming').frames[0].transform,'translateX(-850px)');
   assert.equal(f.animations.find(a=>a.selector==='.soon').frames[0].transform,'translateX(850px)');
-  assert.equal(runner.options.duration, 1400);
-  const runnerFade=f.animations.find(a=>a.selector==='.logo-runner' && a.options.delay===2350);
-  const logoFade=f.animations.find(a=>a.selector==='.logo-reveal-sweep');
-  assert.ok(runnerFade.options.delay > runner.options.duration);
-  assert.equal(logoFade.options.duration,2000);
+  assert.equal(runner.options.duration, 1100);
+  const logoReveal=f.animations.find(a=>a.selector==='.logo-reveal-sweep');
+  assert.ok(logoJourney.options.delay >= runner.options.duration);
+  assert.ok(logoJourney.options.delay >= logoReveal.options.delay + logoReveal.options.duration);
+  assert.equal(f.animations.some(a=>a.selector==='.runner-approved'||a.selector==='.runner-articulated'),false);
+  assert.ok(f.animations.filter(a=>a.selector==='.logo-runner').every(a=>a.frames.every(frame=>!('opacity' in frame))));
   assert.ok(f.animations.filter(a=>a.selector==='.coming'||a.selector==='.soon').every(a=>a.frames.every(frame=>!('opacity' in frame))));
-  assert.ok(runnerFade.options.delay >= logoFade.options.delay + logoFade.options.duration);
-  await f.advance(2150);
+  await f.advance(1600);
   assertComplete(f);
 });
 for (const [name,target,event,payload] of [
@@ -93,4 +96,13 @@ for (const [name,target,event,payload] of [
 });
 test('reduced motion avoids the intro',async()=>{const f=await fixture({reduced:true});assertComplete(f);assert.equal(f.animations.length,0);});
 test('broken logo asset fails open',async()=>{assertComplete(await fixture({assetFails:true}));});
+test('unavailable graphics renderer shows the complete static page',async()=>{assertComplete(await fixture({runnerFails:true}));});
 test('stalled logo loading fails open after 1.8 seconds',async()=>{const f=await fixture({assetStalls:true});await f.advance(1800);assertComplete(f);});
+
+test('mobile portrait splash is centered in the viewport',async()=>{
+  const f=await fixture({width:390,height:844});
+  const logo=f.animations.find(a=>a.selector==='.official-logo');
+  const [dx,dy]=logo.frames[0].transform.match(/translate\(([-.\d]+)px, ([-.\d]+)px\)/).slice(1).map(Number);
+  assert.equal(100+400/2+dx,390/2);
+  assert.equal(120+256/2+dy,844/2);
+});

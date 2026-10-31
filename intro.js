@@ -7,12 +7,19 @@
   const animations = new Set();
   const timers = new Set();
   let finished = false;
+  let runnerMotion = null;
   const ease = 'cubic-bezier(.25, .8, .25, 1)';
+  const timing = {
+    run: 1100, revealStart: 200, revealDuration: 1450,
+    settleStart: 1800, settleDuration: 950,
+    headlineDuration: 1350, headlineStagger: 100, finish: 3400
+  };
 
   function finish() {
     if (finished) return;
     finished = true;
     clearTimeout(window.introWatchdog);
+    if(runnerMotion?.destroy)runnerMotion.destroy();else runnerMotion?.stop();
     timers.forEach(clearTimeout);
     animations.forEach(animation => animation.cancel());
     root.classList.remove('intro-pending', 'intro-playing', 'is-revealing');
@@ -58,47 +65,54 @@
     const scale = stageWidth / box.width;
     const dx = width / 2 - (box.left + box.width / 2);
     const splashTop = hero.top + Math.max(12, hero.height * .035);
-    const dy = splashTop + stageWidth / (2 * (1568 / 1003)) - (box.top + box.height / 2);
+    const mobilePortrait = width <= 620 && window.innerHeight > width;
+    const stageCenterY = mobilePortrait ? window.innerHeight / 2
+      : splashTop + stageWidth / (2 * (1568 / 1003));
+    const dy = stageCenterY - (box.top + box.height / 2);
     const stage = `translate(${dx}px, ${dy}px) scale(${scale})`;
     logo.style.transform = stage;
     root.classList.replace('intro-pending', 'intro-playing');
 
     const runner = document.querySelector('.logo-runner');
-    // One continuous glide: preserve the runner's approved silhouette.
+    runnerMotion = window.PapumPareRunner.create(document.querySelector('.runner-articulated'),{source,outline:document.querySelector('#runner-outline').getAttribute('d')});
+    runnerMotion.play(timing.run);
+    // Ground travel and the two-cycle stride share one clock.
     animate(runner, [
-      { transform: 'translate(-850px, 0)', visibility: 'visible' },
-      { transform: 'translate(0, 0)', visibility: 'visible' }
-    ], { duration: 1400, easing: 'cubic-bezier(.32,0,.18,1)' });
+      { transform: 'translate(-850px, 0)', visibility: 'visible', offset: 0 },
+      { transform: 'translate(-94.444px, 0)', visibility: 'visible', offset: .8, easing: 'cubic-bezier(.333333, .666667, .666667, 1)' },
+      { transform: 'translate(0, 0)', visibility: 'visible', offset: 1 }
+    ], { duration: timing.run, easing: 'linear' });
+
+    // The same approved artwork moves throughout the stride. Its joint
+    // transforms return to identity, so there is no runner fade or swap.
 
     // A wide feathered mask creates a directional fade, with no hard wipe edge.
     animate(document.querySelector('.logo-reveal-sweep'), [
       { transform: 'translateX(-2568px)' }, { transform: 'translateX(0)' }
-    ], { delay: 350, duration: 2000, easing: 'linear' });
+    ], { delay: timing.revealStart, duration: timing.revealDuration, easing: 'linear' });
 
-    // The moving runner stays fully solid until it has arrived and the full
-    // logo beneath it has finished appearing. Then the overlay can dissolve.
-    animate(runner, [{ opacity: 1 }, { opacity: 0 }], { delay: 2350, duration: 350 });
-
+    // Keep the printed runner out of the background; the skinned original
+    // remains solid and aligned as the complete mark moves into position.
     animate(logo, [{ transform: stage }, { transform: 'translate(0, 0) scale(1)' }], {
-      delay: 2700, duration: 1100
+      delay: timing.settleStart, duration: timing.settleDuration
     });
-    after(2700, () => {
+    after(timing.settleStart, () => {
       root.classList.add('is-revealing');
       // Start each word just outside its viewport so its first visible motion
-      // is gentle, then use a longer, symmetric ease for a continuous glide.
+      // is gentle, then use symmetric easing for a quick, continuous glide.
       document.querySelectorAll('.headline-word').forEach((word, index) => {
         animate(word, [
           { transform: `translateX(${index === 0 ? '-850px' : '850px'})` },
           { transform: 'translateX(0)' }
-        ], { delay: index * 140, duration: 1800, easing: 'cubic-bezier(.37, 0, .63, 1)' });
+        ], { delay: index * timing.headlineStagger, duration: timing.headlineDuration, easing: 'cubic-bezier(.37, 0, .63, 1)' });
       });
       document.querySelectorAll('.stay-tuned, .identity-location, .announcement-location').forEach(element => {
         animate(element, [
           { clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0 0% 0 0%)' }
-        ], { delay: 600, duration: 550 });
+        ], { delay: 480, duration: 450 });
       });
     });
-    after(4850, finish);
+    after(timing.finish, finish);
     window.addEventListener('resize', finish, { once: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     reduceMotion.addEventListener('change', finish, { once: true });
