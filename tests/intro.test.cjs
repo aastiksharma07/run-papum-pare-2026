@@ -70,7 +70,8 @@ test('runner glides, words slide in opposite directions, then all animation stat
   const f=await fixture();
   assert.ok(f.classes.has('intro-playing'));
   const runner=f.animations.find(a=>a.selector==='.logo-runner');
-  assert.equal(runner.frames[0].transform,'translate(-850px, 0)');
+  assert.equal(runner.frames[0].transform,'translateX(-54.20918%)');
+  assert.equal(runner.frames.at(-1).transform,'translateX(0%)');
   const logoJourney = f.animations.find(a=>a.selector==='.official-logo');
   await f.advance(logoJourney.options.delay - 1);
   assert.equal(f.animations.some(a=>a.selector==='.coming'), false);

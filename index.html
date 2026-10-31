@@ -30,10 +30,10 @@
         }, 8000);
       }
     </script>
-    <link rel="stylesheet" href="./styles.css?v=20261031-runner-skin-3">
-    <script src="./runner-skin.js?v=20261031-runner-skin-3" defer></script>
-    <script src="./runner-motion.js?v=20261031-runner-skin-3" defer></script>
-    <script src="./intro.js?v=20261031-runner-skin-3" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261031-runner-refine-2">
+    <script src="./runner-skin.js?v=20261031-runner-refine-2" defer></script>
+    <script src="./runner-motion.js?v=20261031-runner-refine-2" defer></script>
+    <script src="./intro.js?v=20261031-runner-refine-2" defer></script>
     <title>Run Papum Pare Marathon 2026 — Coming Soon</title>
   </head>
   <body>
@@ -78,14 +78,17 @@
                 </mask>
               </defs>
               <g class="logo-reveal" mask="url(#logo-reveal-mask)"><g mask="url(#logo-without-runner)"><use href="#logo-source"/></g></g>
-              <g class="logo-runner">
-                <g class="runner-articulated" aria-hidden="true">
-                  <foreignObject width="1568" height="1003"><canvas xmlns="http://www.w3.org/1999/xhtml" class="runner-canvas" width="1568" height="1003" style="width:100%;height:100%"></canvas></foreignObject>
-                  <g class="runner-skin-fallback"><use href="#logo-source" clip-path="url(#runner-clip)"/></g>
-                </g>
-                <!-- runner-rig:end -->
-              </g>
             </svg>
+            <!-- Keep the accelerated canvas in HTML so Safari applies the same
+                 responsive scale and transforms as the surrounding logo. -->
+            <div class="logo-runner" aria-hidden="true">
+              <div class="runner-articulated">
+                <canvas class="runner-canvas" width="1568" height="1003"></canvas>
+                <svg class="runner-skin-fallback" viewBox="0 0 1568 1003" focusable="false">
+                  <image href="./assets/brand/run-papum-pare-2026-logo-transparent-v2.webp" width="1568" height="1003" clip-path="url(#runner-clip)"/>
+                </svg>
+              </div>
+            </div>
           </div>
           <p class="identity-motto">Run today, inspire generations.</p>
           <p class="identity-location location"><span class="location-place">PAPUM PARE</span> <span class="location-separator" aria-hidden="true">·</span> <span class="location-region">ARUNACHAL PRADESH</span></p>

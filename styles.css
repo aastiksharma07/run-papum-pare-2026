@@ -392,8 +392,11 @@ a:focus-visible, main:focus-visible {
 .intro-playing .logo-static { visibility: hidden; }
 .intro-playing .logo-layers { display: block; }
 .intro-playing .logo-reveal-sweep { transform: translateX(-2568px); }
-.logo-runner { transform-origin: 1070px 410px; }
-.runner-articulated { opacity: 1; }
+.logo-runner { display: none; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.intro-playing .logo-runner { display: block; }
+.runner-articulated { position: absolute; inset: 0; opacity: 1; }
+.runner-canvas, .runner-skin-fallback { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+.runner-canvas[hidden] { display: none; }
 .intro-pending .announcement, .intro-playing .announcement { z-index: 2; }
 .intro-pending .official-logo { visibility: hidden; }
 .intro-pending .announcement-message, .intro-pending .identity-location,

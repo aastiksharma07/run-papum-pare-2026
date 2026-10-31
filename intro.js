@@ -76,11 +76,12 @@
     const runner = document.querySelector('.logo-runner');
     runnerMotion = window.PapumPareRunner.create(document.querySelector('.runner-articulated'),{source,outline:document.querySelector('#runner-outline').getAttribute('d')});
     runnerMotion.play(timing.run);
-    // Ground travel and the two-cycle stride share one clock.
+    // HTML percentage travel follows the SVG's source-coordinate scale,
+    // including Safari, without placing an accelerated canvas in SVG.
     animate(runner, [
-      { transform: 'translate(-850px, 0)', visibility: 'visible', offset: 0 },
-      { transform: 'translate(-94.444px, 0)', visibility: 'visible', offset: .8, easing: 'cubic-bezier(.333333, .666667, .666667, 1)' },
-      { transform: 'translate(0, 0)', visibility: 'visible', offset: 1 }
+      { transform: 'translateX(-54.20918%)', visibility: 'visible', offset: 0 },
+      { transform: 'translateX(-6.023214%)', visibility: 'visible', offset: .8, easing: 'cubic-bezier(.333333, .666667, .666667, 1)' },
+      { transform: 'translateX(0%)', visibility: 'visible', offset: 1 }
     ], { duration: timing.run, easing: 'linear' });
 
     // The same approved artwork moves throughout the stride. Its joint

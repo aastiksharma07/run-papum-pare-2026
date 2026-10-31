@@ -139,10 +139,14 @@
   const angle = (a,b) => Math.atan2(b.y-a.y,b.x-a.x);
 
   function create(svg,options={}) {
-    const canvas=svg.querySelector?.('.runner-canvas');
-    const mesh=canvas&&root.PapumPareRunnerSkin?.create(canvas,options.source,options.outline,{REFERENCE_POSE,boneMatrix,rigidMatrix});
-    if(mesh)svg.querySelector('.runner-skin-fallback').style.display='none';
-    const parts = Object.fromEntries([...svg.querySelectorAll('[data-runner-part]')].map(node=>[node.dataset.runnerPart,node]));
+    const canvas=svg.querySelector?.('.runner-canvas')||svg;
+    let mesh=null;
+    try { mesh=canvas&&root.PapumPareRunnerSkin?.create(canvas,options.source,options.outline,{REFERENCE_POSE,boneMatrix,rigidMatrix}); }
+    catch(error) { canvas?.setAttribute('hidden',''); }
+    const fallback=svg.querySelector?.('.runner-skin-fallback');
+    if(mesh&&fallback)fallback.style.display='none';
+    if(!mesh&&fallback)fallback.style.display='block';
+    const parts = Object.fromEntries([...(svg.querySelectorAll?.('[data-runner-part]')||[])].map(node=>[node.dataset.runnerPart,node]));
     let frameId = null, stopped = false;
     const set = (name,value) => parts[name].setAttribute('d',value);
     function drawLeg(name,value) {
@@ -160,7 +164,7 @@
     function draw(elapsed,duration=DEFAULT_DURATION,options={}) {
       const pose=sample(elapsed,duration,options);
       if(mesh) mesh.draw(pose);
-      else {
+      else if(parts['rear-thigh']) {
         // Keep the original vector rig usable for future scroll scenes.
         drawLeg('rear',pose.rearLeg);drawLeg('front',pose.frontLeg);
         drawArm('rear',pose.rearArm);drawArm('front',pose.frontArm);
@@ -176,6 +180,7 @@
       const loop=config.loop===true;
       const options={settle:config.settle??!loop,cycles:config.cycles??2};
       stop();stopped=false;
+      if(!mesh&&!parts['rear-thigh']){draw(duration,duration,options);return;}
       if(root.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
         draw(duration,duration);return;
       }

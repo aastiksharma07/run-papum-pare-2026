@@ -1,10 +1,9 @@
 /* Continuous, texture-preserving skin for the approved runner artwork. */
 (function(root){
   'use strict';
-  // A small regular mesh avoids cut edges between rotating image pieces.
-  // The GPU moves the mesh; the original logo remains the only texture.
+  // The GPU moves a single weighted mesh; the logo remains the only texture.
   function create(canvas,image,outline,motion){
-    const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:true});
+    const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:true,preserveDrawingBuffer:true});
     if(!gl)throw new Error('Runner skin is unavailable.');
     const compile=(type,source)=>{
       const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
@@ -17,12 +16,21 @@
       attribute vec4 a_weights;
       uniform mat3 u_bones[13];
       varying vec2 v_uv;
+      mat3 bone(float i){
+        if(i<0.5)return u_bones[0]; if(i<1.5)return u_bones[1];
+        if(i<2.5)return u_bones[2]; if(i<3.5)return u_bones[3];
+        if(i<4.5)return u_bones[4]; if(i<5.5)return u_bones[5];
+        if(i<6.5)return u_bones[6]; if(i<7.5)return u_bones[7];
+        if(i<8.5)return u_bones[8]; if(i<9.5)return u_bones[9];
+        if(i<10.5)return u_bones[10]; if(i<11.5)return u_bones[11];
+        return u_bones[12];
+      }
       void main(){
         vec3 p=vec3(a_position,1.0);
-        vec3 skinned= u_bones[int(a_bones.x)]*p*a_weights.x
-                    +u_bones[int(a_bones.y)]*p*a_weights.y
-                    +u_bones[int(a_bones.z)]*p*a_weights.z
-                    +u_bones[int(a_bones.w)]*p*a_weights.w;
+        vec3 skinned= bone(a_bones.x)*p*a_weights.x
+                    +bone(a_bones.y)*p*a_weights.y
+                    +bone(a_bones.z)*p*a_weights.z
+                    +bone(a_bones.w)*p*a_weights.w;
         gl_Position=vec4(skinned.x/1568.0*2.0-1.0,1.0-skinned.y/1003.0*2.0,0.0,1.0);
         v_uv=a_position/vec2(1568.0,1003.0);
       }`);
@@ -53,21 +61,34 @@
       return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);
     }
     function weights(x,y){
-      // Keep face and upper neck rigid. Limb joints share nearby weights,
-      // giving elbows and knees a continuous contour rather than a hinge cut.
-      if(y<248&&x>1130)return [0,0,0,0,1,0,0,0];
+      // Keep the head and torso stable. Each limb follows only its own chain,
+      // so the crossing arms and legs cannot pull on one another.
+      if(y<252&&x>1128)return [0,0,0,0,1,0,0,0];
+      if(x>1026&&x<1178&&y>278&&y<427)return [0,0,0,0,0,1,0,0];
       const p={x,y};
-      const nearest=bones.map(([a,b],i)=>({i,d:distance(p,a,b)})).sort((a,b)=>a.d-b.d).slice(0,4);
-      const values=nearest.map(({d})=>Math.exp(-(((d-nearest[0].d)/19)**2)));
-      const sum=values.reduce((a,b)=>a+b,0);
-      return [...nearest.map(n=>n.i),...values.map(v=>v/sum)];
+      let chain,base;
+      if(y>398&&x<1056){chain=[1,2,3];base=1;} // rear leg
+      else if(y>375&&x>=1056){chain=[7,8,9];base=7;} // front leg
+      else if(x<1130){chain=[4,5,6];base=4;} // rear arm
+      else {chain=[10,11,12];base=10;} // front arm
+      const nearest=chain.map(i=>({i,d:distance(p,...bones[i])})).sort((a,b)=>a.d-b.d).slice(0,2);
+      if(nearest.length===1)return [nearest[0].i,nearest[0].i,nearest[0].i,nearest[0].i,1,0,0,0];
+      const distances=chain.map(i=>distance(p,...bones[i]));
+      const first=distances[0]<=distances[1]?chain[0]:chain[1];
+      const second=distances[0]<=distances[1]?chain[1]:chain[0];
+      // Crossfade only in the actual joint area. Outside it, one segment
+      // keeps the calf, thigh, upper arm and forearm rigid and readable.
+      const blend=Math.max(0,Math.min(1,.5+(distances[0]-distances[1])/44));
+      const eased=blend*blend*(3-2*blend);
+      return [first,second,base,base,1-eased,eased,0,0];
     }
     const vertices=[];
     const add=(x,y)=>vertices.push(x,y,...weights(x,y));
-    // Ten source pixels per cell retains the silhouette through fast motion.
-    for(let y=180;y<660;y+=10)for(let x=840;x<1300;x+=10){
-      add(x,y);add(x+10,y);add(x,y+10);
-      add(x+10,y);add(x+10,y+10);add(x,y+10);
+    // Fine tessellation preserves the silhouette through the stride.
+    const step=6;
+    for(let y=180;y<660;y+=step)for(let x=840;x<1300;x+=step){
+      add(x,y);add(x+step,y);add(x,y+step);
+      add(x+step,y);add(x+step,y+step);add(x,y+step);
     }
     const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
     for(const [name,size,offset]of [['a_position',2,0],['a_bones',4,8],['a_weights',4,24]]){
