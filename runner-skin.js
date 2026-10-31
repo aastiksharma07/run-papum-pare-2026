@@ -60,26 +60,32 @@
       const t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy)));
       return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);
     }
+    const torso=[{x:1090,y:280},{x:1140,y:278},{x:1176,y:340},{x:1175,y:358},{x:1128,y:374},{x:1037,y:392},{x:1058,y:340},{x:1080,y:300}];
+    function insidePolygon(x,y,points){
+      let inside=false;
+      for(let i=0,j=points.length-1;i<points.length;j=i++){
+        const a=points[i],b=points[j];
+        if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)inside=!inside;
+      }
+      return inside;
+    }
     function weights(x,y){
-      // Keep the head and torso stable. Each limb follows only its own chain,
-      // so the crossing arms and legs cannot pull on one another.
-      if(y<252&&x>1128)return [0,0,0,0,1,0,0,0];
-      if(x>1026&&x<1178&&y>278&&y<427)return [0,0,0,0,0,1,0,0];
+      // Head and core move as one stable unit. Only the limbs deform, which
+      // prevents their crossed paths from tearing or folding the chest.
+      if((y<276&&x>1124)||insidePolygon(x,y,torso))return [0,0,0,0,1,0,0,0];
       const p={x,y};
       let chain,base;
       if(y>398&&x<1056){chain=[1,2,3];base=1;} // rear leg
       else if(y>375&&x>=1056){chain=[7,8,9];base=7;} // front leg
       else if(x<1130){chain=[4,5,6];base=4;} // rear arm
       else {chain=[10,11,12];base=10;} // front arm
-      const nearest=chain.map(i=>({i,d:distance(p,...bones[i])})).sort((a,b)=>a.d-b.d).slice(0,2);
-      if(nearest.length===1)return [nearest[0].i,nearest[0].i,nearest[0].i,nearest[0].i,1,0,0,0];
       const distances=chain.map(i=>distance(p,...bones[i]));
       const first=distances[0]<=distances[1]?chain[0]:chain[1];
       const second=distances[0]<=distances[1]?chain[1]:chain[0];
-      // Crossfade only in the actual joint area. Outside it, one segment
-      // keeps the calf, thigh, upper arm and forearm rigid and readable.
-      const blend=Math.max(0,Math.min(1,.5+(distances[0]-distances[1])/44));
-      const eased=blend*blend*(3-2*blend);
+      // Give the nearer segment full influence away from a joint, then blend
+      // evenly only where both segments meet.
+      const blend=.5*Math.max(0,Math.min(1,1-Math.abs(distances[0]-distances[1])/44));
+      const eased=blend===.5?.5:blend*blend*(3-2*blend);
       return [first,second,base,base,1-eased,eased,0,0];
     }
     const vertices=[];
